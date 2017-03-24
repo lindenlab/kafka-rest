@@ -5,7 +5,7 @@ build:
 
 publish:
   docker:
-    repo: registry.docker/infra/rest-proxy
+    repo: registry.docker/infra/confluent-rest-proxy
     force_tag: true
     tag:
       - $$BRANCH
