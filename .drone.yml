@@ -1,7 +1,7 @@
 build:
   image: registry.docker/maven:3.3-jdk-8
   commands:
-    - mvn clean package assembly:single
+    - mvn clean package -DskipTests
 
 publish:
   docker:
