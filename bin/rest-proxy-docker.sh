@@ -31,6 +31,10 @@ for var in $(env | grep -v '^RP_CFG_' | grep '^RP_' | sort); do
   echo "${key}=${value}" >> ${rp_cfg_file}
 done
 
+if [ "${RP_DEBUG}" = "true" ]; then
+  sed 's/rootLogger=INFO/rootLogger=DEBUG/' -i $(dirname $0)/../config/log4j.properties
+fi
+
 # Fix for issue #77, PR #78: https://github.com/confluentinc/kafka-rest/pull/78/files
 sed -i 's/\"kafka\"//' $(dirname $0)/kafka-rest-run-class
 

@@ -64,7 +64,8 @@ public class JsonKafkaConsumerState extends KafkaConsumerState<byte[], byte[], O
 
     if (record.key() != null) {
       approxSize += record.key().length;
-      key = deserialize(record.key());
+      //key = deserialize(record.key());
+      key = record.key();
     }
 
     if (record.value() != null) {
