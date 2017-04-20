@@ -212,10 +212,10 @@ public class SimpleConsumerManager {
   private JsonConsumerRecord createJsonConsumerRecord(final MessageAndOffset messageAndOffset,
                                                       final String topicName,
                                                       final int partitionId) {
-    final MessageAndMetadata<Object, Object> messageAndMetadata =
+    final MessageAndMetadata<byte[], Object> messageAndMetadata =
         new MessageAndMetadata<>(topicName, partitionId,
                                  messageAndOffset.message(), messageAndOffset.offset(),
-                                 jsonDecoder, jsonDecoder,
+                                 binaryDecoder, jsonDecoder,
                                  0, TimestampType.CREATE_TIME);
     return new JsonConsumerRecord(messageAndMetadata.key(), messageAndMetadata.message(),
         partitionId, messageAndOffset.offset());

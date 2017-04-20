@@ -17,13 +17,29 @@ package io.confluent.kafkarest.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class JsonConsumerRecord extends ConsumerRecord<Object, Object> {
+//import java.io.IOException;
 
-  public JsonConsumerRecord(@JsonProperty("key") Object key,
-                            @JsonProperty("value") Object value,
-                            @JsonProperty("partition") int partition,
-                            @JsonProperty("offset") long offset) {
-    super(key, value, partition, offset);
+import io.confluent.rest.validation.ConstraintViolations;
+
+public class JsonConsumerRecord extends ConsumerRecord<byte[], Object> {
+
+  public JsonConsumerRecord(
+      @JsonProperty("key") byte[] key,
+      @JsonProperty("value") Object value,
+      @JsonProperty("partition") int partition,
+      @JsonProperty("offset") long offset
+  ) {
+    super(partition, offset);
+    
+    try {
+      if (key != null) {
+        this.key = EntityUtils.parseBase64Binary(new String(key));
+      }
+    } catch (IllegalArgumentException e) {
+      //throw ConstraintViolations.simpleException("Record key contains invalid base64 encoding");
+      this.key = null;
+    }
+    this.value = value;
   }
 
   @Override

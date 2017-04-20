@@ -26,8 +26,10 @@ import io.confluent.rest.validation.ConstraintViolations;
 public class BinaryConsumerRecord extends ConsumerRecord<byte[], byte[]> {
 
   public BinaryConsumerRecord(
-      @JsonProperty("key") String key, @JsonProperty("value") String value,
-      @JsonProperty("partition") int partition, @JsonProperty("offset") long offset
+      @JsonProperty("key") String key,
+      @JsonProperty("value") String value,
+      @JsonProperty("partition") int partition,
+      @JsonProperty("offset") long offset
   ) throws IOException {
     super(partition, offset);
     try {

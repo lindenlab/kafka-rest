@@ -25,7 +25,7 @@ import kafka.serializer.DefaultDecoder;
 import kafka.utils.VerifiableProperties;
 import org.apache.kafka.common.errors.SerializationException;
 
-public class JsonConsumerState extends ConsumerState<byte[], byte[], Object, Object> {
+public class JsonConsumerState extends ConsumerState<byte[], byte[], byte[], Object> {
   private static final Decoder<byte[]> decoder = new DefaultDecoder(new VerifiableProperties());
   private static final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -46,10 +46,10 @@ public class JsonConsumerState extends ConsumerState<byte[], byte[], Object, Obj
   }
 
   @Override
-  public ConsumerRecordAndSize<Object, Object> createConsumerRecord(MessageAndMetadata<byte[], byte[]> msg) {
+  public ConsumerRecordAndSize<byte [], Object> createConsumerRecord(MessageAndMetadata<byte[], byte[]> msg) {
     long approxSize = 0;
 
-    Object key = null;
+    //Object key = null;
     Object value = null;
 
     // The extra serialization here is unfortunate. We could use @JsonRawValue
@@ -59,7 +59,7 @@ public class JsonConsumerState extends ConsumerState<byte[], byte[], Object, Obj
     if (msg.key() != null) {
       approxSize += msg.key().length;
       //key = deserialize(msg.key());
-      key = msg.key();
+      //key = msg.key();
     }
 
     if (msg.message() != null) {
@@ -67,8 +67,8 @@ public class JsonConsumerState extends ConsumerState<byte[], byte[], Object, Obj
       value = deserialize(msg.message());
     }
 
-    return new ConsumerRecordAndSize<Object, Object>(
-        new JsonConsumerRecord(key, value, msg.partition(), msg.offset()),
+    return new ConsumerRecordAndSize<byte[], Object>(
+        new JsonConsumerRecord(msg.key(), value, msg.partition(), msg.offset()),
         approxSize);
   }
 
