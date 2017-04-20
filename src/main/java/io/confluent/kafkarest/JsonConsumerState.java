@@ -58,7 +58,8 @@ public class JsonConsumerState extends ConsumerState<byte[], byte[], Object, Obj
 
     if (msg.key() != null) {
       approxSize += msg.key().length;
-      key = deserialize(msg.key());
+      //key = deserialize(msg.key());
+      key = msg.key();
     }
 
     if (msg.message() != null) {

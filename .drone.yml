@@ -1,0 +1,13 @@
+build:
+  image: registry.docker/maven:3.3-jdk-8
+  commands:
+    - mvn clean package -DskipTests
+
+publish:
+  docker:
+    repo: registry.docker/infra/confluent-rest-proxy
+    force_tag: true
+    tag:
+      - $$BRANCH
+      - $$BRANCH-$$COMMIT
+
